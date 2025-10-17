@@ -1,0 +1,52 @@
+{
+  "contacts": [
+    {
+      "email": "sv@techstartup.io",
+      "firstname": "Sanjana",
+      "lastname": "Venkatesh",
+      "persona": "founders",
+      "company": "TechStartup Inc",
+      "jobtitle": "CEO"
+    },
+    {
+      "email": "urvi.@creativeco.io",
+      "firstname": "Urvi",
+      "lastname": "Latnekar",
+      "persona": "operations",
+      "company": "Creative Co",
+      "jobtitle": "Operations Director"
+    },
+    {
+      "email": "emma.williams@arthaus.io",
+      "firstname": "Emma",
+      "lastname": "Williams",
+      "persona": "creatives",
+      "company": "ArtHaus Agency",
+      "jobtitle": "Creative Director"
+    },
+    {
+      "email": "james.thompson@innovate.io",
+      "firstname": "James",
+      "lastname": "Thompson",
+      "persona": "founders",
+      "company": "Innovate Agency",
+      "jobtitle": "Founder"
+    },
+    {
+      "email": "lisa.park@designstudio.io",
+      "firstname": "Lisa",
+      "lastname": "Park",
+      "persona": "creatives",
+      "company": "Design Studio",
+      "jobtitle": "Lead Designer"
+    },
+    {
+      "email": "david.kumar@workflow.io",
+      "firstname": "David",
+      "lastname": "Kumar",
+      "persona": "operations",
+      "company": "Workflow Solutions",
+      "jobtitle": "Operations Manager"
+    }
+  ]
+}

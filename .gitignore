@@ -1,0 +1,37 @@
+
+# Virtual Environment
+venv/
+env/
+
+# Environment variables
+.env
+
+# Python
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outputs
+outputs/*.json
+outputs/*.html
+data/campaign_logs.json
+data/novamind.db

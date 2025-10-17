@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - NovaMind{% endblock %}
+
+{% block content %}
+<h2>Campaign Analytics</h2>
+
+<div class="card">
+    <h3>Select Campaign</h3>
+    <select id="campaign-select" onchange="loadCampaignMetrics()" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;">
+        <option value="">-- Select a campaign --</option>
+        {% for campaign in campaigns %}
+        <option value="{{ campaign.id }}">{{ campaign.name }} ({{ campaign.send_date[:10] }})</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div id="metrics-container" style="display: none;">
+    <div class="card">
+        <h3>Performance by Persona</h3>
+        <div id="metrics-table"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function loadCampaignMetrics() {
+    const campaignId = document.getElementById('campaign-select').value;
+    
+    if (!campaignId) {
+        document.getElementById('metrics-container').style.display = 'none';
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/campaign/${campaignId}`);
+        const data = await response.json();
+        
+        displayMetrics(data.metrics);
+        document.getElementById('metrics-container').style.display = 'block';
+    } catch (error) {
+        console.error('Error loading metrics:', error);
+    }
+}
+
+function displayMetrics(metrics) {
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    
+    table.innerHTML = `
+        <thead>
+            <tr style="background: #f8f9fa; text-align: left;">
+                <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Persona</th>
+                <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Sent</th>
+                <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Opens</th>
+                <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Clicks</th>
+                <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Open Rate</th>
+                <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Click Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${metrics.map(m => `
+                <tr style="border-bottom: 1px solid #e0e0e0;">
+                    <td style="padding: 12px;">${m.persona}</td>
+                    <td style="padding: 12px;">${m.sent}</td>
+                    <td style="padding: 12px;">${m.opens}</td>
+                    <td style="padding: 12px;">${m.clicks}</td>
+                    <td style="padding: 12px;">${m.open_rate}%</td>
+                    <td style="padding: 12px;">${m.click_rate}%</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    `;
+    
+    const container = document.getElementById('metrics-table');
+    container.innerHTML = '';
+    container.appendChild(table);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{
+  "founders": {
+    "name": "Founders / Decision-Makers",
+    "focus": ["ROI", "growth", "efficiency", "competitive advantage", "scalability"],
+    "tone": "strategic and data-driven",
+    "pain_points": ["time management", "scaling challenges", "budget optimization", "team productivity"],
+    "interests": ["business metrics", "market trends", "cost savings", "revenue growth"]
+  },
+  "creatives": {
+    "name": "Creative Professionals",
+    "focus": ["inspiration", "time-saving tools", "creative freedom", "innovation", "workflow enhancement"],
+    "tone": "inspiring and visual",
+    "pain_points": ["creative blocks", "repetitive tasks", "tool overload", "mundane work"],
+    "interests": ["design trends", "creative tools", "artistic inspiration", "productivity hacks"]
+  },
+  "operations": {
+    "name": "Operations Managers",
+    "focus": ["workflows", "integrations", "reliability", "process optimization", "system efficiency"],
+    "tone": "practical and detail-oriented",
+    "pain_points": ["system integration", "team coordination", "efficiency bottlenecks", "process gaps"],
+    "interests": ["automation tools", "workflow optimization", "system reliability", "team management"]
+  }
+}

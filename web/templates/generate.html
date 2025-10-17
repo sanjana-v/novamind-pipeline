@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Generate Content - NovaMind{% endblock %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 0 auto; text-align: center;">
+    <h2 style="color: #333; margin-bottom: 10px;">✨ Generate New Content</h2>
+    <p style="color: #666; margin-bottom: 30px;">
+        Use AI to instantly craft blog posts and newsletters tailored to your audience.
+    </p>
+
+    <div id="alert-container" style="margin-bottom: 20px;"></div>
+
+    <div class="card" style="text-align: left;">
+        <h3 style="margin-bottom: 15px;">Step 1: Enter Blog Topic</h3>
+        <input 
+            type="text" 
+            id="topic" 
+            placeholder="e.g., How AI is transforming creative workflows in 2025"
+            style="margin-bottom: 10px;"
+        >
+        <textarea 
+            id="context" 
+            placeholder="Additional context (optional)..."
+        ></textarea>
+        <div style="text-align: right;">
+            <button class="btn" onclick="generateContent()" id="generate-btn">Generate Content</button>
+        </div>
+    </div>
+
+    <div id="results" style="display: none; margin-top: 40px;">
+        <div class="card">
+            <h3>📝 Generated Blog Post</h3>
+            <h4 id="blog-title" style="color: #667eea; margin-bottom: 10px;"></h4>
+            <p id="blog-content" style="line-height: 1.6; color: #555;"></p>
+        </div>
+        
+        <div class="card">
+            <h3>📧 Personalized Newsletters</h3>
+            <div id="newsletters-container"></div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn" onclick="launchCampaign()" id="launch-btn">🚀 Launch Campaign</button>
+        </div>
+    </div>
+
+    <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p style="margin-top: 20px; color: #666;">Generating content... This may take 30–60 seconds.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentBlogId = null;
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+    document.getElementById('alert-container').appendChild(alertDiv);
+    setTimeout(() => alertDiv.remove(), 5000);
+}
+
+async function generateContent() {
+    const topic = document.getElementById('topic').value;
+    const context = document.getElementById('context').value;
+    
+    if (!topic.trim()) {
+        showAlert('Please enter a topic.', 'error');
+        return;
+    }
+    
+    document.getElementById('generate-btn').disabled = true;
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('results').style.display = 'none';
+    
+    try {
+        const response = await fetch('/api/generate-content', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ topic, context })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            currentBlogId = data.blog_id;
+            displayResults(data);
+            showAlert('✅ Content generated successfully!', 'success');
+        } else {
+            showAlert('❌ ' + data.error, 'error');
+        }
+    } catch (error) {
+        showAlert('Network error: ' + error.message, 'error');
+    } finally {
+        document.getElementById('generate-btn').disabled = false;
+        document.getElementById('loading').style.display = 'none';
+    }
+}
+
+function displayResults(data) {
+    document.getElementById('blog-title').textContent = data.blog.title;
+    document.getElementById('blog-content').textContent =
+        data.blog.content.substring(0, 500) + '...';
+    
+    const newslettersDiv = document.getElementById('newsletters-container');
+    newslettersDiv.innerHTML = '';
+    
+    for (const newsletter of Object.values(data.newsletters)) {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.style.marginBottom = '20px';
+        div.innerHTML = `
+            <h4 style="color: #667eea; margin-bottom: 10px;">${newsletter.persona}</h4>
+            <p><strong>Subject:</strong> ${newsletter.subject_line}</p>
+            <p><strong>Preview:</strong> ${newsletter.preview_text}</p>
+            <p style="margin-top: 10px; color: #666;">${newsletter.content.substring(0, 200)}...</p>
+        `;
+        newslettersDiv.appendChild(div);
+    }
+    
+    document.getElementById('results').style.display = 'block';
+}
+
+async function launchCampaign() {
+    if (!currentBlogId) {
+        showAlert('No blog post to launch.', 'error');
+        return;
+    }
+    
+    document.getElementById('launch-btn').disabled = true;
+    document.getElementById('loading').style.display = 'block';
+    
+    try {
+        const response = await fetch('/api/launch-campaign', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ blog_id: currentBlogId })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showAlert('🎉 Campaign launched successfully!', 'success');
+            setTimeout(() => (window.location.href = '/analytics'), 2000);
+        } else {
+            showAlert('❌ ' + data.error, 'error');
+        }
+    } catch (error) {
+        showAlert('Network error: ' + error.message, 'error');
+    } finally {
+        document.getElementById('launch-btn').disabled = false;
+        document.getElementById('loading').style.display = 'none';
+    }
+}
+</script>
+{% endblock %}

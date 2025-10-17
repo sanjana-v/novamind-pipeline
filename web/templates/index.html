@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - NovaMind{% endblock %}
+
+{% block content %}
+<h2>Campaign Dashboard</h2>
+
+<div class="card">
+    <h3>Recent Campaigns</h3>
+    
+    {% if campaigns %}
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #f8f9fa; text-align: left;">
+                    <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Campaign</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Topic</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Date</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campaign in campaigns %}
+                <tr style="border-bottom: 1px solid #e0e0e0;">
+                    <td style="padding: 12px;">{{ campaign.name }}</td>
+                    <td style="padding: 12px;">{{ campaign.topic }}</td>
+                    <td style="padding: 12px;">{{ campaign.send_date[:10] }}</td>
+                    <td style="padding: 12px;">
+                        <span style="background: #d4edda; color: #155724; padding: 4px 12px; border-radius: 12px; font-size: 12px;">
+                            {{ campaign.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: #666; text-align: center; padding: 40px;">
+            No campaigns yet. <a href="/generate" style="color: #667eea;">Create your first campaign!</a>
+        </p>
+    {% endif %}
+</div>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="/generate">
+        <button class="btn">✨ Create New Campaign</button>
+    </a>
+</div>
+{% endblock %}
