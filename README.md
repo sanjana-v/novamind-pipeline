@@ -39,7 +39,7 @@ This system automates the entire content marketing workflow:
 ### Setup Steps
 
 1. **Clone the repository**
-````bash
+bash
 git clone <your-repo-url>
 cd novamind-pipeline
 
@@ -54,7 +54,7 @@ source venv/bin/activate
 Install dependencies
 
 bashpip install -r requirements.txt
-```
+
 
 4. **Configure environment variables**
 
@@ -82,7 +82,7 @@ Provide optimization suggestions
 ##  Web Dashboard
 Start the web server:
 bashpython web/app.py
-```
+
 
 Then open: http://localhost:5000
 
@@ -90,9 +90,9 @@ The dashboard allows you to:
 - Generate content through a UI
 - Launch campaigns with one click
 - View analytics and performance metrics
-
+## Overview
 ## Features
-
+````
 ### Core Requirements
 
 **1. AI Content Generation**
@@ -143,6 +143,13 @@ novamind-pipeline/
 ├── run_pipeline.py              # Main pipeline script
 ├── requirements.txt             # Python dependencies
 └── README.md                    # This file
+
+```
+## Output
+<video src="output-1.mov" controls playsinline muted style="max-width:100%; border-radius:12px;">
+
+  Here’s a <a href="output-1.mov">direct link</a>.
+</video>
 
 ## Author
 
