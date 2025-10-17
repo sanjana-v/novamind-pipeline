@@ -146,10 +146,13 @@ novamind-pipeline/
 
 ```
 ## Output
-<video src="output-1.mov" controls playsinline muted style="max-width:100%; border-radius:12px;">
-
-  Here’s a <a href="output-1.mov">direct link</a>.
+<video controls playsinline muted style="max-width:100%; border-radius:12px;">
+  <source src="./Output-2.mov" type="video/quicktime">
+  <source src="./output-1.mov" type="video/quicktime">
+  Your browser doesn’t support embedded MOV. 
+  <a href="./Output-2.mov?raw=1">Download the video</a>.
 </video>
+
 
 ## Author
 
